@@ -1,0 +1,14 @@
+td p {
+    margin: -0.3rem;
+    font-size: 0.9rem;
+ }
+ aside.main-sidebar{
+    background-color: #05445E;
+    color:#ddd;
+ }
+ nav ul li a p{
+    color:#ddd;
+ }
+ nav ul li a i{
+    color:#ddd;
+ }

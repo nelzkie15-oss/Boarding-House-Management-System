@@ -36,7 +36,6 @@ function App() {
               <Route path="/admin/suggestions" element={<Suggestions />} />
               <Route path="/admin/incomereport" element={<IncomeReport />} />
               <Route path="/admin/collectibles" element={<Collectibles />} />
-
           </Routes>
         </BrowserRouter>
       </div>

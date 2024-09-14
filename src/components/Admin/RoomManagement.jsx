@@ -1,13 +1,40 @@
-import room from "./../../assets/img/room.jpg";
+
 import  Nav  from "../layouts/Nav";
 import Sidebar from "../layouts/Sidebar";
 import  Footer  from "../layouts/Footer";
 import AddroomModal from "./RoomModal/AddroomModal";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RoomManagement = () => {
+
+   const [rooms, setRooms] = useState([]);
+   const [loading, setLoading] = useState(true);
+   const [error, setError] = useState(null);
+   // const [showContent, setShowContent] = React.useState(false);
+
+   useEffect(() => {
+     // Fetch data from the API
+     axios.get('http://127.0.0.1:8000/api/rooms')
+         .then(response => {
+            setRooms(response.data);
+            setLoading(false);
+         })
+         .catch(error => {
+            setError('There was an error fetching the data.');
+            setLoading(false);
+         });
+   }, []); // Empty dependency array means this runs once when the component mounts
+ 
+   // if (loading) return <p>Loading...</p>;
+   // if (error) return <p>{error}</p>;
+
     return (
         <>
           <div className="wrapper">
+          <ToastContainer />
             <Nav />
             <Sidebar />
             <div className="content-wrapper">
@@ -45,10 +72,11 @@ const RoomManagement = () => {
                            </tr>
                         </thead>
                         <tbody>
-                           <tr>
-                              <td>RM-0001</td>
-                              <td>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet</td>
-                              <td><img src={room} style={{ border: "2px solid gray",  width:"100px", height: "100px" }} /></td>
+                        {rooms.length > 0 ? (rooms.map(room => (
+                               <tr key={room.id}>
+                              <td>{room.room_number}</td>
+                              <td>{room.description}</td>
+                              <td><img src={`http://127.0.0.1:8000/storage/uploads/${room.file}`} style={{ border: "2px solid gray",  width:"100px", height: "100px" }} /></td>
                               <td className="text-center">
                                  <a className="btn btn-sm btn-success" href="#" data-toggle="modal" data-target="#edit"><i
                                        className="fa fa-edit"></i></a>&nbsp;
@@ -56,28 +84,10 @@ const RoomManagement = () => {
                                        className="fa fa-trash-alt"></i></a>
                               </td>
                            </tr>
-                           <tr>
-                              <td>RM-0002</td>
-                              <td>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet</td>
-                              <td><img src={room} style={{ border: "2px solid gray",  width:"100px", height: "100px" }} /></td>
-                              <td className="text-center">
-                                 <a className="btn btn-sm btn-success" href="#" data-toggle="modal" data-target="#edit"><i
-                                       className="fa fa-edit"></i></a>&nbsp;
-                                 <a className="btn btn-sm btn-danger" href="#" data-toggle="modal" data-target="#delete"><i
-                                       className="fa fa-trash-alt"></i></a>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>RM-0003</td>
-                              <td>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet</td>
-                              <td><img src={room} style={{ border: "2px solid gray",  width:"100px", height: "100px" }} /></td>
-                              <td className="text-center">
-                                 <a className="btn btn-sm btn-success" href="#" data-toggle="modal" data-target="#edit"><i
-                                       className="fa fa-edit"></i></a>&nbsp;
-                                 <a className="btn btn-sm btn-danger" href="#" data-toggle="modal" data-target="#delete"><i
-                                       className="fa fa-trash-alt"></i></a>
-                              </td>
-                           </tr>
+                      ))
+                     ) : (
+                       <p>There are no employees</p>
+                     )}
                         </tbody>
                      </table>
                   </div>
@@ -91,5 +101,9 @@ const RoomManagement = () => {
         </>
       );
   }
-
+//   <td><img src={`http://127.0.0.1:8000/storage/uploads/${room.file}`} style={{ border: "2px solid gray",  width:"100px", height: "100px", filter: !showContent ? "blur(1.5rem)" : "none"  }}  alt={showContent ? alt : ""} />
+//   {!showContent && <div className="warning-text">
+//      This image may contain sensitive content
+//      </div>}
+//   </td>
 export default RoomManagement;

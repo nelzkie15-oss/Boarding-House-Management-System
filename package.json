@@ -12,11 +12,13 @@
   "dependencies": {
     "admin-lte": "^4.0.0-beta1",
     "adminlte-2-react": "^0.2.2-beta.3",
+    "axios": "^1.7.6",
     "bootstrap": "^5.3.3",
     "jquery": "^3.7.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.1"
+    "react-router-dom": "^6.26.1",
+    "react-toastify": "^10.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
